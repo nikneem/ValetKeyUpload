@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { ISasToken } from 'src/app/services/azure-storage';
 import { BlobStorageService } from 'src/app/services/blob-storage.service';
-import { map, combineAll } from 'rxjs/operators';
+import { map, combineAll, catchError, switchMap } from 'rxjs/operators';
 
 interface IUploadProgress {
   filename: string;
@@ -30,17 +30,32 @@ export class HomeComponent implements OnInit {
   }
 
   uploadFile(file: File): Observable<IUploadProgress> {
-    const accessToken: ISasToken = {
-      container: 'containerName',
-      filename: file.name,
-      storageAccessToken:
-        '?sv=2017-07-29&sr=c&sig=efvM0XPzJHA7gAy6rJHkARImqLDBglt6q7zN2kgrer4%3D&st=2018-07-22T14%3A45%3A18Z&se=2018-07-22T15%3A00%3A18Z&sp=acw',
-      storageUri: 'http://localhost:10000/devstoreaccount1'
-    };
-
     return this.blobStorage
-      .uploadToBlobStorage(accessToken, file)
-      .pipe(map(progress => this.mapProgress(file, progress)));
+      .aquireSasToken(file.name)
+      .pipe(
+        switchMap((e: ISasToken) =>
+          this.blobStorage
+            .uploadToBlobStorage(e, file)
+            .pipe(map(progress => this.mapProgress(file, progress)))
+        )
+      );
+
+    // return this.blobStorage
+    //   .aquireSasToken()
+    //   .pipe(
+    //     map(tkn =>
+    //       this.blobStorage
+    //         .uploadToBlobStorage(tkn, file)
+    //         .pipe(map(progress => this.mapProgress(file, progress)))
+    //     )
+    //   );
+    // const accessToken: ISasToken = {
+    //   container: 'containerName',
+    //   filename: file.name,
+    //   storageAccessToken:
+    //     '?sv=2017-07-29&sr=c&sig=efvM0XPzJHA7gAy6rJHkARImqLDBglt6q7zN2kgrer4%3D&st=2018-07-22T14%3A45%3A18Z&se=2018-07-22T15%3A00%3A18Z&sp=acw',
+    //   storageUri: 'http://localhost:10000/devstoreaccount1'
+    // };
   }
 
   private mapProgress(file: File, progress: number): IUploadProgress {

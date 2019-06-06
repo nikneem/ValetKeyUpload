@@ -6,6 +6,6 @@ namespace IntelligentBusinessApi.Contracts
 {
     public interface IValetKeyService
     {
-        Task<ValetKeyDto> RegisterValetKey(Guid blobName);
+        Task<ValetKeyDto> RegisterValetKey(string blobName);
     }
 }

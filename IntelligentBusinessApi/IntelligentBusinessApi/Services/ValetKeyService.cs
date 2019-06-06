@@ -28,11 +28,11 @@ namespace IntelligentBusinessApi.Services
             }
         }
 
-        public async Task<ValetKeyDto> RegisterValetKey(Guid blobName)
+        public async Task<ValetKeyDto> RegisterValetKey(string blobName)
         {
             await cloudContainer.CreateIfNotExistsAsync();
 
-            var blob = cloudContainer.GetBlockBlobReference(blobName.ToString());
+            var blob = cloudContainer.GetBlockBlobReference(blobName);
             var policy = new SharedAccessBlobPolicy
             {
                 Permissions = SharedAccessBlobPermissions.Write,
@@ -42,10 +42,11 @@ namespace IntelligentBusinessApi.Services
             var sas = blob.GetSharedAccessSignature(policy);
             return new ValetKeyDto
             {
-                BlobUri = blob.Uri,
-                Credentials = sas,
-                BlobName = blobName.ToString()
-            };
+                StorageUri = $"https://{blob.Container.Uri.Host}",
+                StorageAccessToken= sas,
+                Container= blob.Container.Name,
+                Filename= blob.Name
+        };
         }
 
     }

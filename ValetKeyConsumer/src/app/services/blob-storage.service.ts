@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, startWith, map } from 'rxjs/operators';
 import {
   BLOB_STORAGE_TOKEN,
   IBlobService,
@@ -8,10 +8,22 @@ import {
   ISasToken,
   ISpeedSummary
 } from './azure-storage';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class BlobStorageService {
-  constructor(@Inject(BLOB_STORAGE_TOKEN) private blobStorage: IBlobStorage) {}
+  constructor(
+    @Inject(BLOB_STORAGE_TOKEN) private blobStorage: IBlobStorage,
+    private http: HttpClient
+  ) {}
+
+  aquireSasToken(file?: string): Observable<ISasToken> {
+    let url = 'https://localhost:44349/api/valetkeys';
+    if (file) {
+      url = url + `?name=${file}`;
+    }
+    return this.http.get<ISasToken>(url);
+  }
 
   uploadToBlobStorage(sasToken: ISasToken, file: File): Observable<number> {
     const customBlockSize = this.getBlockSize(file);

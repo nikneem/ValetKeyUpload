@@ -11,11 +11,15 @@ namespace IntelligentBusinessApi.Controllers
     {
         private readonly IValetKeyService _service;
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{name?}")]
+        public async Task<IActionResult> Get([FromQuery]string name = null)
         {
-            var blob = Guid.NewGuid();
-            return Ok(await _service.RegisterValetKey(blob));
+            if (string.IsNullOrEmpty(name))
+            {
+                name = Guid.NewGuid().ToString();
+            }
+
+            return Ok(await _service.RegisterValetKey(name));
         }
 
         public ValetKeysController(IValetKeyService service)
