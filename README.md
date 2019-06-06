@@ -13,7 +13,7 @@ In order to run the front-end project, download and install NodeJS (10).
 
 Open a console window navigate to the front-end project (containing package.json) and type
 ```
-    npm i @angular/cli -g
-    npm i
-    ng serve -o
+npm i @angular/cli -g
+npm i
+ng serve -o
 ```
