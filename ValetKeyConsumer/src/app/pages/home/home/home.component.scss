@@ -1,0 +1,32 @@
+.upload-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  .upload {
+    display: flex;
+    flex-flow: column;
+    background: #aaa;
+    border-radius: 20px;
+    padding: 20px;
+    width: 720px;
+    .file {
+      .filename {
+        margin-bottom: 3px;
+      }
+      .progress {
+        border: solid 1px black;
+        padding: 3px;
+        border-radius: 8px;
+        .bar {
+          border-radius: 4px;
+          min-height: 10px;
+          background-color: #eee;
+        }
+      }
+      margin-bottom: 16px;
+    }
+  }
+}

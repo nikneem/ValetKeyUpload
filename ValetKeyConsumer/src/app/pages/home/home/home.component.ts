@@ -16,6 +16,7 @@ interface IUploadProgress {
 })
 export class HomeComponent implements OnInit {
   uploadProgress$: Observable<IUploadProgress[]>;
+  uploadProgress: IUploadProgress[];
   filesSelected = false;
 
   constructor(private blobStorage: BlobStorageService) {}
@@ -26,6 +27,9 @@ export class HomeComponent implements OnInit {
       map(file => this.uploadFile(file)),
       combineAll()
     );
+    this.uploadProgress$.subscribe(val => {
+      this.uploadProgress = val;
+    });
   }
 
   uploadFile(file: File): Observable<IUploadProgress> {

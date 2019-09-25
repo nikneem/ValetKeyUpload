@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  background: #000;
+  font-family: 'Manjari', sans-serif;
+  font-size: 20px;
+}
+input {
+  font-family: 'Manjari', sans-serif;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
