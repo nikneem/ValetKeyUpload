@@ -1,5 +1,5 @@
 # Valet Key Upload
-This is a demo project that allows async multiple uploads to Azure BLOB Storage using the Valet Key Design Pattern. Read my blog at [hexmaster.nl](https://hexmaster.nl/article/valet-key-pattern-in-azure) for more information about the background of the Valet Key Design Pattern.
+This is a demo project that allows async multiple uploads to Azure BLOB Storage using the Valet Key Design Pattern. Read my blog at [hexmaster.nl](https://hexmaster.nl/posts/valet-key-pattern-part-1/) for more information about the background of the Valet Key Design Pattern.
 
 About this project, the backend is written in ASP.NET Core 2.2 (C#) and Visual Studio 2019. The backend connects to a storage account (set the connection string in appsettings.json to your own storage account). The API contains one endpoint and generates a Secure Access Token to a blob on Azure BLOB Storage.
 
